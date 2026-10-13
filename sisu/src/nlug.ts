@@ -57,6 +57,15 @@ const nluMapping: NLUMapping = {
   ],
 };
 const nlgMapping: NLGMapping = [
+  [
+    { type: "not_understood", content: null },
+    "Sorry, I don't understand."
+  ],
+
+  [
+  { type: "negative_contact", content: null },
+  "I didn't hear anything. Could you repeat that?",
+],
   [{ type: "ask", content: WHQ("booking_course") }, "Which course?"],
   [{ type: "greet", content: null }, "Hello! You can ask me anything!"],
   [
@@ -103,5 +112,8 @@ export function nlg(moves: Move[]): string {
 /** NLU mapping function can be replaced by statistical NLU
  */
 export function nlu(utterance: string): Move[] {
+  if ( utterance.trim() === "") {
+    return [{ type: "negative_contact", content: null }];
+  }
   return nluMapping[utterance.toLowerCase()] || [];
 }
